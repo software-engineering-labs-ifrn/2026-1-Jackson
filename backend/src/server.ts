@@ -1,9 +1,10 @@
+import "reflect-metadata";
 import express from 'express';
 import cors from 'cors';
 import dotenv from 'dotenv';
 import { connectDB } from './config/db';
-import authRoutes from './routes/authRoutes';
-import transactionRoutes from './routes/transactionRoutes';
+//import authRoutes from './routes/authRoutes';
+//import transactionRoutes from './routes/transactionRoutes';
 
 dotenv.config();
 
@@ -15,8 +16,8 @@ app.use(express.json());
 
 connectDB();
 
-app.use('/', authRoutes);
-app.use('/', transactionRoutes);
+//app.use('/', authRoutes);
+//app.use('/', transactionRoutes);
 
 app.get('/api/status', (req, res) => {
   res.json({ message: 'API a funcionar em TypeScript e muito mais segura!' });
