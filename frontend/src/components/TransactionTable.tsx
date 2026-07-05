@@ -45,7 +45,7 @@ export function TransactionTable({
               </tr>
             ) : (
               transactions.map((t) => (
-                <tr key={t._id} className="hover:bg-gray-50 transition">
+                <tr key={t.id} className="hover:bg-gray-50 transition">
                   <td className="p-4 font-medium text-gray-900">
                     {t.description}
                     <span className="block text-xs text-gray-500 capitalize">
@@ -67,7 +67,7 @@ export function TransactionTable({
                       ✏️
                     </button>
                     <button
-                      onClick={() => onDelete(t._id)}
+                      onClick={() => onDelete(t.id)}
                       className="text-red-400 hover:text-red-600 transition"
                       title="Excluir"
                     >

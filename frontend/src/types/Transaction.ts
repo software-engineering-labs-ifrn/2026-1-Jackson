@@ -1,7 +1,7 @@
 // frontend/src/types/Transaction.ts
 
 export interface Transaction {
-  _id: string;
+  id: string; 
   description: string;
   amount: number;
   type: "income" | "expense";

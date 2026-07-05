@@ -64,7 +64,7 @@ export function Dashboard() {
       return;
     try {
       await api.delete(`/transactions/${id}`);
-      setTransactions(transactions.filter((t) => t._id !== id));
+      setTransactions(transactions.filter((t) => t.id !== id));
       toast.success("Transação apagada com sucesso!"); // NOVO: Toast de Sucesso
     } catch (error) {
       console.error(error);
@@ -76,7 +76,7 @@ export function Dashboard() {
     setDescription(transaction.description);
 
     // NOVO: Formata o número que vem do banco (ex: 1500.5) para a máscara (1.500,50)
-    const formattedAmount = transaction.amount
+    const formattedAmount = Number(transaction.amount)
       .toFixed(2)
       .replace(".", ",")
       .replace(/(\d)(?=(\d{3})+(?!\d))/g, "$1.");
@@ -85,7 +85,7 @@ export function Dashboard() {
     setType(transaction.type);
     setCategory(transaction.category);
     setDate(transaction.date.substring(0, 10));
-    setEditingId(transaction._id);
+    setEditingId(transaction.id);
     setIsModalOpen(true);
   }
 
@@ -151,17 +151,19 @@ export function Dashboard() {
 
   const income = filteredTransactions
     .filter((t) => t.type === "income")
-    .reduce((acc, t) => acc + t.amount, 0);
+    .reduce((acc, t) => acc + Number(t.amount), 0); // <-- Adicionado Number()
+
   const expense = filteredTransactions
     .filter((t) => t.type === "expense")
-    .reduce((acc, t) => acc + t.amount, 0);
+    .reduce((acc, t) => acc + Number(t.amount), 0); // <-- Adicionado Number()
+    
   const balance = income - expense;
 
   const expensesByCategory = filteredTransactions
     .filter((t) => t.type === "expense")
     .reduce(
       (acc, t) => {
-        acc[t.category] = (acc[t.category] || 0) + t.amount;
+        acc[t.category] = (acc[t.category] || 0) + Number(t.amount); // <-- Adicionado Number()
         return acc;
       },
       {} as Record<string, number>,

@@ -1,6 +1,6 @@
 import { AppDataSource } from "../config/db";
-import { Transaction } from "../models/Transaction";
-import { User } from "../models/User";
+import { Transaction } from "../entities/Transaction";
+import { User } from "../entities/User";
 
 export class TransactionService {
   private transactionRepository = AppDataSource.getRepository(Transaction);
@@ -43,5 +43,20 @@ export class TransactionService {
     }
 
     await this.transactionRepository.remove(transaction);
+  }
+
+  async updateTransaction(transactionId: string, userId: string, data: any): Promise<Transaction> {
+    // 1. Procura a transação que pertence a este utilizador
+    const transaction = await this.transactionRepository.findOne({
+      where: { id: transactionId, user: { id: userId } }
+    });
+
+    if (!transaction) {
+      throw new Error("Transação não encontrada ou você não tem permissão para editá-la.");
+    }
+
+    // 2. Mescla os dados antigos com os novos e salva
+    this.transactionRepository.merge(transaction, data);
+    return await this.transactionRepository.save(transaction);
   }
 }

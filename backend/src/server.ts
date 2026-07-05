@@ -17,7 +17,7 @@ app.use(express.json());
 connectDB();
 
 app.use('/', authRoutes);
-app.use('/', transactionRoutes);
+app.use('/transactions', transactionRoutes);
 
 app.get('/api/status', (req, res) => {
   res.json({ message: 'API a funcionar em TypeScript e muito mais segura!' });
