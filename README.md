@@ -27,9 +27,9 @@ O projeto foi desenvolvido com uma arquitetura baseada em microsserviços, utili
 ## 🖼️ Modelagem do Sistema (Casos de Uso)
 Abaixo está o diagrama que ilustra as interações principais do usuário com a aplicação.
 
-![Diagrama de Casos de Uso](./modelagem/diagramCasoDeUso.png)
+![Diagrama de Casos de Uso](./docs/modelagem/diagramCasoDeUso.png)
 
-> **Nota:** Para ler a especificação completa, consulte o [Documento de Casos de Uso](./modelagem/CASOS_DE_USO.md).
+> **Nota:** Para ler a especificação completa, consulte o [Documento de Casos de Uso](./docs/modelagem/CASOS_DE_USO.md).
 
 ---
 

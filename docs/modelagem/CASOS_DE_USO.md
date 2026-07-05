@@ -12,3 +12,6 @@ Este documento detalha a modelagem funcional do sistema **Meu Orçamento**, refl
 4. **Cadastrar Transação:** O usuário regista uma nova receita ou despesa de forma direta.
 5. **Editar Transação:** O usuário altera os dados de uma movimentação existente. *(Depende obrigatoriamente da ação prévia de visualização, utilizando o relacionamento `<<include>>` para Visualizar Dashboard).*
 6. **Excluir Transação:** O usuário apaga um registo financeiro. *(Depende obrigatoriamente da ação prévia de visualização, utilizando o relacionamento `<<include>>` para Visualizar Dashboard).*
+
+## Diagrama de Casos de Uso
+![Diagrama de Casos de Uso](./diagramCasoDeUso.png)
