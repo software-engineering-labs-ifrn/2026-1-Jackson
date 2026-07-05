@@ -1,6 +1,8 @@
 import "reflect-metadata";
 import { DataSource } from "typeorm";
 import dotenv from "dotenv";
+import { User } from "../models/User";              
+import { Transaction } from "../models/Transaction";
 
 dotenv.config();
 
@@ -13,7 +15,7 @@ export const AppDataSource = new DataSource({
   database: "meu_orcamento", // O banco que definimos no Docker
   synchronize: true, // Cria as tabelas automaticamente (perfeito para projetos académicos)
   logging: false,
-  entities: [], // Vamos colocar aqui as nossas Classes User e Transaction a seguir!
+  entities: [User, Transaction], 
 });
 
 export const connectDB = async () => {

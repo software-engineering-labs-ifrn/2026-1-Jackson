@@ -1,71 +1,49 @@
-import { Response } from 'express';
-import { Transaction } from '../models/Transaction';
-import { AuthRequest } from '../middleware/auth';
+import { Request, Response } from "express";
+import { TransactionService } from "../services/TransactionService";
 
-export const createTransaction = async (req: AuthRequest, res: Response): Promise<void> => {
-  try {
-    const transaction = new Transaction({
-      ...req.body,
-      owner: req.user?.userId
-    });
-    
-    await transaction.save();
-    res.status(201).send(transaction);
-  } catch (error) {
-    console.error('Erro ao criar transação:', error);
-    res.status(400).send(error);
+export class TransactionController {
+  private transactionService: TransactionService;
+
+  constructor() {
+    this.transactionService = new TransactionService();
   }
-};
 
-export const getTransactions = async (req: AuthRequest, res: Response): Promise<void> => {
-  try {
-    const transactions = await Transaction.find({ owner: req.user?.userId });
-    res.send(transactions);
-  } catch (error) {
-    console.error('Erro ao buscar transações:', error);
-    res.status(500).send(error);
-  }
-};
-
-export const updateTransaction = async (req: AuthRequest, res: Response): Promise<void> => {
-  try {
-    const transactionId = req.params.id;
-    const userId = req.user?.userId;
-    const updates = req.body;
-
-    const transaction = await Transaction.findOneAndUpdate(
-      { _id: transactionId, owner: userId },
-      updates,
-      { new: true, runValidators: true }
-    );
-
-    if (!transaction) {
-      res.status(404).send({ error: 'Transação não encontrada.' });
-      return;
+  create = async (req: Request, res: Response): Promise<void> => {
+    try {
+      const userId = (req as any).user.userId;
+      const transaction = await this.transactionService.createTransaction(req.body, userId);
+      res.status(201).json(transaction);
+    } catch (error: any) {
+      res.status(400).json({ error: error.message });
     }
+  };
 
-    res.send(transaction);
-  } catch (error) {
-    console.error('Erro ao atualizar transação:', error);
-    res.status(400).send(error);
-  }
-};
-
-export const deleteTransaction = async (req: AuthRequest, res: Response): Promise<void> => {
-  try {
-    const transactionId = req.params.id;
-    const userId = req.user?.userId;
-
-    const transaction = await Transaction.findOneAndDelete({ _id: transactionId, owner: userId });
-
-    if (!transaction) {
-      res.status(404).send({ error: 'Transação não encontrada.' });
-      return;
+  getAll = async (req: Request, res: Response): Promise<void> => {
+    try {
+      const userId = (req as any).user.userId;
+      const transactions = await this.transactionService.getTransactionsByUser(userId);
+      res.json(transactions);
+    } catch (error: any) {
+      res.status(500).json({ error: error.message });
     }
+  };
 
-    res.send(transaction);
-  } catch (error) {
-    console.error('Erro ao apagar transação:', error);
-    res.status(500).send(error);
-  }
-};
+  delete = async (req: Request, res: Response): Promise<void> => {
+    try {
+      const userId = (req as any).user.userId;
+      const transactionId = req.params.id as string;
+      
+      if (!transactionId) {
+        res.status(400).json({ error: "ID da transação não fornecido." });
+        return;
+      }
+      
+      await this.transactionService.deleteTransaction(transactionId, userId);
+      res.json({ message: "Transação removida com sucesso" });
+    } catch (error: any) {
+      res.status(400).json({ error: error.message });
+    }
+  };
+}
+
+export default new TransactionController();

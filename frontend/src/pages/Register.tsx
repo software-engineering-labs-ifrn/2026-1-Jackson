@@ -30,7 +30,7 @@ export function Register() {
       setIsLoading(true);
 
       // Chamada real ao teu backend Node.js (rota que já criaste no authRoutes.ts)
-      await api.post("/signup", {
+      await api.post("/register", {
         name,
         email,
         password,

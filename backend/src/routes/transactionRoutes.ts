@@ -1,20 +1,13 @@
-import { Router } from 'express';
-import { auth } from '../middleware/auth';
-import { 
-  createTransaction, 
-  getTransactions, 
-  updateTransaction, 
-  deleteTransaction 
-} from '../controllers/transactionController';
+import { Router } from "express";
+import transactionController from "../controllers/transactionController";
+import { auth } from "../middleware/auth";
 
 const router = Router();
 
-// Rotas protegidas pelo middleware 'auth' e chamando apenas o Controller
-router.post('/transactions', auth, createTransaction);
-router.get('/transactions', auth, getTransactions);
+router.use(auth); 
 
-// CORREÇÃO: Middleware auth adicionado e código duplicado removido!
-router.put('/transactions/:id', auth, updateTransaction);
-router.delete('/transactions/:id', auth, deleteTransaction);
+router.post("/", transactionController.create);
+router.get("/", transactionController.getAll);
+router.delete("/:id", transactionController.delete);
 
 export default router;
