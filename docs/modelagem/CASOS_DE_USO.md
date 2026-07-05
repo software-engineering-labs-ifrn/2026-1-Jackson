@@ -1,48 +1,14 @@
-# 🗺️ Diagrama de Casos de Uso
+# Especificação dos Casos de Uso
 
-Abaixo está o mapeamento do escopo funcional do sistema **Meu Orçamento**.
+Este documento detalha a modelagem funcional do sistema **Meu Orçamento**, refletindo as interações diretas do usuário e as dependências arquiteturais entre as funcionalidades.
 
-![Diagrama de Casos de Uso](./casos_de_uso.png)
+## 👥 Ator do Sistema
+* **Usuário:** Representa a pessoa física que interage com a aplicação para o controle das suas finanças pessoais.
 
-## Código Fonte (PlantUML)
-<details>
-<summary>Clique para ver o código usado para gerar o diagrama</summary>
-
-```plantuml
-@startuml
-left to right direction
-
-actor "Usuário" as Usuario
-
-rectangle "Meu Orçamento" {
-
-    usecase "Cadastrar Conta" as UC1
-    usecase "Realizar Login" as UC2
-    usecase "Visualizar Perfil" as UC3
-
-    usecase "Cadastrar Transação" as UC4
-    usecase "Listar Transações" as UC5
-    usecase "Editar Transação" as UC6
-    usecase "Excluir Transação" as UC7
-
-    usecase "Visualizar Resumo Financeiro" as UC8
-    usecase "Filtrar Transações" as UC9
-    usecase "Realizar Logout" as UC10
-
-    UC6 .> UC5 : <<include>>
-    UC7 .> UC5 : <<include>>
-    UC8 .> UC5 : <<include>>
-}
-
-Usuario --> UC1
-Usuario --> UC2
-Usuario --> UC3
-Usuario --> UC4
-Usuario --> UC5
-Usuario --> UC6
-Usuario --> UC7
-Usuario --> UC8
-Usuario --> UC9
-Usuario --> UC10
-
-@enduml
+## ⚙️ Casos de Uso e Relacionamentos
+1. **Cadastrar Conta:** O usuário cria o seu perfil no sistema.
+2. **Realizar Login:** O usuário autentica-se na plataforma.
+3. **Visualizar Dashboard:** O usuário acede ao painel principal onde lista o seu resumo financeiro e as suas transações.
+4. **Cadastrar Transação:** O usuário regista uma nova receita ou despesa de forma direta.
+5. **Editar Transação:** O usuário altera os dados de uma movimentação existente. *(Depende obrigatoriamente da ação prévia de visualização, utilizando o relacionamento `<<include>>` para Visualizar Dashboard).*
+6. **Excluir Transação:** O usuário apaga um registo financeiro. *(Depende obrigatoriamente da ação prévia de visualização, utilizando o relacionamento `<<include>>` para Visualizar Dashboard).*

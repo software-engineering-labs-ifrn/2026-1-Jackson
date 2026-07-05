@@ -24,6 +24,14 @@ O projeto foi desenvolvido com uma arquitetura baseada em microsserviços, utili
 * **Banco de Dados & ORM:** MySQL 8.0 (via Docker) e TypeORM.
 
 ---
+## 🖼️ Modelagem do Sistema (Casos de Uso)
+Abaixo está o diagrama que ilustra as interações principais do usuário com a aplicação.
+
+![Diagrama de Casos de Uso](./modelagem/diagramCasoDeUso.png)
+
+> **Nota:** Para ler a especificação completa, consulte o [Documento de Casos de Uso](./modelagem/CASOS_DE_USO.md).
+
+---
 
 ## 🚀 Como Executar o Projeto Localmente (Guia para Desenvolvedores)
 
