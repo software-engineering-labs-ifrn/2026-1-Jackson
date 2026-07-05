@@ -1,12 +1,13 @@
 import { AppDataSource } from "../config/db";
 import { Transaction } from "../entities/Transaction";
 import { User } from "../entities/User";
+import { TransactionDTO } from "../dtos/TransactionDTO";
 
 export class TransactionService {
   private transactionRepository = AppDataSource.getRepository(Transaction);
   private userRepository = AppDataSource.getRepository(User);
 
-  async createTransaction(data: any, userId: string): Promise<Transaction> {
+  async createTransaction(data: TransactionDTO, userId: string): Promise<Transaction> {
     // Regra de Segurança: Garantir que o utilizador existe
     const user = await this.userRepository.findOne({ where: { id: userId } });
     if (!user) {
@@ -45,7 +46,7 @@ export class TransactionService {
     await this.transactionRepository.remove(transaction);
   }
 
-  async updateTransaction(transactionId: string, userId: string, data: any): Promise<Transaction> {
+  async updateTransaction(transactionId: string, userId: string, data: Partial<TransactionDTO>): Promise<Transaction> {
     // 1. Procura a transação que pertence a este utilizador
     const transaction = await this.transactionRepository.findOne({
       where: { id: transactionId, user: { id: userId } }

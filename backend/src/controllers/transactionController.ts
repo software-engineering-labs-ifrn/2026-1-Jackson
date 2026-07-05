@@ -48,7 +48,7 @@ export class TransactionController {
   update = async (req: Request, res: Response): Promise<void> => {
     try {
       const userId = (req as any).user.userId;
-      const transactionId = req.params.id;
+      const transactionId = req.params.id as string;
       
       if (!transactionId) {
         res.status(400).json({ error: "ID da transação não fornecido." });

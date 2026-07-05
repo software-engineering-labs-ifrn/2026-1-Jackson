@@ -151,11 +151,11 @@ export function Dashboard() {
 
   const income = filteredTransactions
     .filter((t) => t.type === "income")
-    .reduce((acc, t) => acc + Number(t.amount), 0); // <-- Adicionado Number()
+    .reduce((acc, t) => acc + (Number(t.amount)|| 0), 0); // <-- Adicionado Number()
 
   const expense = filteredTransactions
     .filter((t) => t.type === "expense")
-    .reduce((acc, t) => acc + Number(t.amount), 0); // <-- Adicionado Number()
+    .reduce((acc, t) => acc + (Number(t.amount)|| 0), 0); // <-- Adicionado Number()
     
   const balance = income - expense;
 
@@ -163,7 +163,7 @@ export function Dashboard() {
     .filter((t) => t.type === "expense")
     .reduce(
       (acc, t) => {
-        acc[t.category] = (acc[t.category] || 0) + Number(t.amount); // <-- Adicionado Number()
+        acc[t.category] = (acc[t.category] || 0) + (Number(t.amount)|| 0); // <-- Adicionado Number()
         return acc;
       },
       {} as Record<string, number>,

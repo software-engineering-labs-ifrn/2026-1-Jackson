@@ -1,5 +1,6 @@
 import { Request, Response } from "express";
 import { UserService } from "../services/UserService";
+import { AuthRequest } from "../middleware/auth";
 import jwt from "jsonwebtoken";
 import bcrypt from "bcrypt";
 
@@ -51,10 +52,17 @@ export class AuthController {
     }
   };
 
-  getProfile = async (req: Request, res: Response): Promise<void> => {
-    try {
-      const userId = (req as any).user.userId;
-      const user = await this.userService.findUserById(userId);
+  getProfile = async (req: AuthRequest, res: Response): Promise<void> => {
+  try {
+    // Agora o TypeScript reconhece o 'user' graças à interface AuthRequest
+    const userId = req.user?.userId;
+    
+    if (!userId) {
+      res.status(401).json({ error: "Utilizador não autenticado" });
+      return;
+    }
+
+    const user = await this.userService.findUserById(userId);
       
       if (!user) {
         res.status(404).json({ error: "Utilizador não encontrado" });
