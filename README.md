@@ -31,8 +31,9 @@ Abaixo está o diagrama que ilustra as interações principais do usuário com a
 
 > **Nota:** Para ler a especificação completa, consulte o [Documento de Casos de Uso](./docs/modelagem/CASOS_DE_USO.md).
 ---
-* **Diagrama de Classes:**
-![Diagrama de Classes](./docs/modelagem/diagrama_classes.png)
+* **Diagrama de Classes (Arquitetura Clássica SOLID):**
+O diagrama do backend foi modelado dinamicamente para refletir a Inversão de Dependência e o padrão Strategy.
+> 🔗 **[Clique aqui para aceder ao Diagrama de Classes Interativo (UML)](./docs/modelagem/DIAGRAMA_DE_CLASSES.md)**
 
 ## 🚀 Como Executar o Projeto Localmente (Guia para Desenvolvedores)
 
