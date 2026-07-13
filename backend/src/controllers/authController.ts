@@ -1,6 +1,5 @@
 import { Request, Response } from "express";
 import { UserService } from "../services/UserService";
-import { AuthRequest } from "../middleware/auth";
 import jwt from "jsonwebtoken";
 import bcrypt from "bcrypt";
 
@@ -11,14 +10,15 @@ export class AuthController {
     this.userService = new UserService();
   }
 
-  // Dica de Arquitetura: Usamos arrow functions (=>) para o 'this' não se perder no Express
   register = async (req: Request, res: Response): Promise<void> => {
     try {
       const user = await this.userService.createUser(req.body);
       
-      // Omitir a password na resposta por segurança
-      const { password, ...userWithoutPassword } = user;
-      res.status(201).json(userWithoutPassword);
+      res.status(201).json({
+        id: user.getId(),
+        name: user.getName(),
+        email: user.getEmail()
+      });
     } catch (error: any) {
       res.status(400).json({ error: error.message });
     }
@@ -34,42 +34,42 @@ export class AuthController {
         return;
       }
 
-      const isMatch = await bcrypt.compare(password, user.password);
+      const isMatch = await bcrypt.compare(password, user.getPassword());
       if (!isMatch) {
         res.status(400).json({ error: "Credenciais inválidas" });
         return;
       }
 
       const token = jwt.sign(
-        { userId: user.id },
+        { userId: user.getId() },
         process.env.JWT_SECRET || "sua_chave_secreta_jwt",
         { expiresIn: "1d" }
       );
 
-      res.json({ token, user: { id: user.id, name: user.name, email: user.email } });
+      res.json({ 
+        token, 
+        user: { 
+          id: user.getId(), 
+          name: user.getName(), 
+          email: user.getEmail() 
+        } 
+      });
     } catch (error: any) {
       res.status(500).json({ error: "Erro no servidor ao fazer login" });
     }
   };
 
-  getProfile = async (req: AuthRequest, res: Response): Promise<void> => {
-  try {
-    // Agora o TypeScript reconhece o 'user' graças à interface AuthRequest
-    const userId = req.user?.userId;
-    
-    if (!userId) {
-      res.status(401).json({ error: "Utilizador não autenticado" });
-      return;
-    }
-
-    const user = await this.userService.findUserById(userId);
+  getProfile = async (req: Request, res: Response): Promise<void> => {
+    try {
+      const userId = (req as any).user.userId;
+      const user = await this.userService.findUserById(userId);
       
       if (!user) {
         res.status(404).json({ error: "Utilizador não encontrado" });
         return;
       }
 
-      res.json({ name: user.name, email: user.email });
+      res.json({ name: user.getName(), email: user.getEmail() });
     } catch (error: any) {
       res.status(500).json({ error: "Erro ao buscar perfil" });
     }
