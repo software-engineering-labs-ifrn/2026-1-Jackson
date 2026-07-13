@@ -17,12 +17,11 @@ Para a atual iteração do sistema, existe apenas um ator principal:
 * **Utilizador Padrão (Cliente):** Pessoa física que interage com o sistema para gerir exclusivamente o seu próprio orçamento. Tem acesso total ao CRUD (Criar, Ler, Atualizar, Apagar) das suas próprias transações, sendo os seus dados isolados e protegidos.
 
 ## 🛠️ Stack Tecnológica
-O projeto foi desenvolvido com uma arquitetura baseada em microsserviços, utilizando Orientação a Objetos (SOLID) e Banco de Dados Relacional.
+O projeto foi desenvolvido com uma arquitetura Cliente-Servidor (API RESTful), adotando rigorosamente a Programação Orientada a Objetos Clássica e os princípios SOLID.
 
 * **Frontend:** React, TypeScript, Vite, Tailwind CSS, Axios.
 * **Backend:** Node.js, Express, TypeScript, JWT, Bcrypt.
-* **Banco de Dados & ORM:** MySQL 8.0 (via Docker) e TypeORM.
-
+* **Base de Dados:** MySQL 8.0 (via Docker) operando com SQL Nativo (`mysql2`), implementando o Padrão Repository — **sem utilização de ORMs**.
 
 ## 🖼️ Modelagem do Sistema
 * **Diagrama Casos de Uso**:
@@ -35,10 +34,7 @@ Abaixo está o diagrama que ilustra as interações principais do usuário com a
 * **Diagrama de Classes:**
 ![Diagrama de Classes](./docs/modelagem/diagrama_classes.png)
 
-
-
 ## 🚀 Como Executar o Projeto Localmente (Guia para Desenvolvedores)
-
 
 ### Pré-requisitos
 Certifique-se de ter instalado na sua máquina:
@@ -64,7 +60,7 @@ Abra um terminal e aceda à pasta do backend:
 cd backend
 npm install
 ```
-*Crie um ficheiro `.env` na pasta `backend` com as variáveis de ambiente necessárias (ex: `PORT=3000`, `JWT_SECRET=sua_chave`).*
+*Crie um ficheiro `.env` na pasta `backend` com as variáveis de ambiente necessárias (ex: `DB_HOST=localhost`, `DB_USER=root`, `DB_PASSWORD=root`, `JWT_SECRET=sua_chave`).*
 
 Inicie o servidor de desenvolvimento:
 ```bash
@@ -87,4 +83,4 @@ O backend estará a correr em `http://localhost:3000` e o frontend estará acess
 
 ---
 ## Integrantes: 
-* Jackson Marques De Oliveira - Desenvolvedor  
+* Jackson Marques De Oliveira - Desenvolvedor
